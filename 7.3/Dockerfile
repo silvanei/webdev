@@ -1,8 +1,8 @@
 FROM php:7.3-fpm-alpine
 
-COPY conf/40-custom.ini /usr/local/etc/php/conf.d/40-custom.ini
+ENV COMPOSER_ALLOW_SUPERUSER=1
 
-WORKDIR /var/www
+COPY conf/40-custom.ini /usr/local/etc/php/conf.d/40-custom.ini
 
 RUN set -e \
     && apk update \
@@ -14,17 +14,32 @@ RUN set -e \
 #    Dependencias webgrind
     && apk add --no-cache python3 \
     && apk add --no-cache graphviz \
-    && if [ ! -e /usr/bin/python ]; then ln -sf python3 /usr/bin/python ; fi
-
-RUN docker-php-ext-install mysqli pdo_mysql opcache intl zip bcmath
-
-RUN pecl install xdebug-2.7.0RC2 redis
-RUN docker-php-ext-enable xdebug redis
-
-ENV COMPOSER_ALLOW_SUPERUSER=1
-RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
+    && if [ ! -e /usr/bin/python ]; then ln -sf python3 /usr/bin/python ; fi \
+    && docker-php-ext-install \
+        mysqli \
+        pdo_mysql \
+        opcache \
+        intl \
+        zip \
+        bcmath \
+    && pecl install \
+        xdebug \
+        redis \
+    && docker-php-ext-enable \
+        xdebug \
+        redis \
+    && php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
     && php composer-setup.php \
     && php -r "unlink('composer-setup.php');" \
-    && mv composer.phar /usr/local/bin/composer
+    && mv composer.phar /usr/local/bin/composer \
+    && composer global require hirak/prestissimo --no-plugins --no-scripts \
+#   Clear install
+    && pecl clear-cache \
+    && composer clear-cache \
+    && docker-php-source delete \
+    && rm -rf /var/cache/* \
+    && rm -Rf /tmp/*
 
 RUN sed -e 's/;pm.status_path = \/status/pm.status_path = \/status/' -i /usr/local/etc/php-fpm.d/www.conf
+
+WORKDIR /var/www
