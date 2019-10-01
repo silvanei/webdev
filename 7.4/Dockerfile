@@ -33,7 +33,8 @@ RUN set -e \
     && php composer-setup.php \
     && php -r "unlink('composer-setup.php');" \
     && mv composer.phar /usr/local/bin/composer \
-    && composer global require hirak/prestissimo --no-plugins --no-scripts \
+    && composer global require hirak/prestissimo \
+    && composer global require psy/psysh:@stable \
     #   Clear install
     && pecl clear-cache \
     && composer clear-cache \
