@@ -1,11 +1,13 @@
 FROM php:7.4.0RC1-fpm-alpine3.10
 
-ENV COMPOSER_ALLOW_SUPERUSER=1
+ENV COMPOSER_ALLOW_SUPERUSER=1 \
+    TZ="America/Sao_Paulo"
 
 COPY conf/40-custom.ini /usr/local/etc/php/conf.d/40-custom.ini
 
 RUN set -e \
     && apk update --no-cache \
+    && apk add --no-cache tzdata \
     && apk add --no-cache icu-dev \
     && apk add --no-cache libzip-dev \
     && apk add --no-cache g++ \

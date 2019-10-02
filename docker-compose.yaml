@@ -3,6 +3,8 @@ services:
   nginx:
     image: nginx:latest
     container_name: "nginx"
+    environment:
+      - TZ=America/Sao_Paulo
     ports:
       - "80:80"
       - "443:443"
@@ -26,73 +28,73 @@ services:
     image: webdev:5.6-fpm
     build: 5.6/
     container_name: "5.6-fpm"
+    environment:
+      - TZ=America/Sao_Paulo
     restart: always
     working_dir: /var/www
     volumes:
       - ./../:/var/www
       - /tmp:/tmp
-      - /etc/timezone:/etc/timezone:ro
-      - /etc/localtime:/etc/localtime:ro
       - /etc/hosts:/etc/hosts:ro
   fpm-72:
     image: webdev:7.2-fpm
     build: 7.2/
     container_name: "7.2-fpm"
+    environment:
+      - TZ=America/Sao_Paulo
     restart: always
     working_dir: /var/www
     volumes:
       - ./../:/var/www
       - /tmp:/tmp
-      - /etc/timezone:/etc/timezone:ro
-      - /etc/localtime:/etc/localtime:ro
       - /etc/hosts:/etc/hosts:ro
   fpm-70:
     image: webdev:7.0-fpm
     build: 7.0/
     container_name: "7.0-fpm"
+    environment:
+      - TZ=America/Sao_Paulo
     restart: always
     working_dir: /var/www
     volumes:
       - ./../:/var/www
       - /tmp:/tmp
-      - /etc/timezone:/etc/timezone:ro
-      - /etc/localtime:/etc/localtime:ro
       - /etc/hosts:/etc/hosts:ro
   fpm-71:
     image: webdev:7.1-fpm
     build: 7.1/
     container_name: "7.1-fpm"
+    environment:
+      - TZ=America/Sao_Paulo
     restart: always
     working_dir: /var/www
     volumes:
       - ./../:/var/www
       - /tmp:/tmp
-      - /etc/timezone:/etc/timezone:ro
-      - /etc/localtime:/etc/localtime:ro
       - /etc/hosts:/etc/hosts:ro
   fpm-73:
     image: webdev:7.3-fpm
     build: 7.3/
     container_name: "7.3-fpm"
+    environment:
+      - TZ=America/Sao_Paulo
     restart: always
     working_dir: /var/www
     volumes:
       - ./../:/var/www
       - /tmp:/tmp
-      - /etc/timezone:/etc/timezone:ro
-      - /etc/localtime:/etc/localtime:ro
       - /etc/hosts:/etc/hosts:ro
   fpm-74:
     image: webdev:7.4-fpm
     build: 7.4/
     container_name: "7.4-fpm"
+    environment:
+      - TZ=America/Sao_Paulo
     restart: always
     working_dir: /var/www
     volumes:
       - ./../:/var/www
       - /tmp:/tmp
-      - /etc/timezone:/etc/timezone:ro
-      - /etc/localtime:/etc/localtime:ro
       - /etc/hosts:/etc/hosts:ro
 
   # docker volume create portainer_data
