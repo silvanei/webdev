@@ -15,8 +15,8 @@ RUN set -e \
         soap \
         mysqli \
         bcmath \
-    && pecl install xdebug-2.5.0 \
-    && docker-php-ext-enable xdebug
+    && pecl install xdebug-2.5.0 timezonedb \
+    && docker-php-ext-enable xdebug timezonedb
 
 ENV COMPOSER_ALLOW_SUPERUSER=1
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
