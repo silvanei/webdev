@@ -31,7 +31,7 @@ RUN set -e \
         zip \
         bcmath \
     && pecl install \
-        xdebug-2.8.0 \
+        xdebug \
         redis \
     && docker-php-ext-enable \
         xdebug \
