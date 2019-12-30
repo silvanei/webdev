@@ -1,4 +1,4 @@
-FROM php:7.4.0-fpm-alpine3.10
+FROM php:7.4.1-fpm-alpine3.10
 
 # https://snyk.io/blog/10-docker-image-security-best-practices/
 # Teste da imagem https://medium.com/@aelsabbahy/tutorial-how-to-test-your-docker-image-in-half-a-second-bbd13e06a4a9

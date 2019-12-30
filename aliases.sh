@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 function docker_alias() {
-    docker run -it --rm --user $(id -u):$(id -g) -v `pwd`:`pwd` -w `pwd`  ${@:1}
+    docker run -it --rm --user $(id -u):$(id -g) -v `pwd`:`pwd` --network webdev_default -w `pwd`  ${@:1}
 }
 
 

@@ -4,7 +4,7 @@ COPY conf/40-custom.ini /usr/local/etc/php/conf.d/40-custom.ini
 
 RUN set -e \
     && apt-get update \
-    && apt-get install -my wget zlib1g-dev libicu-dev g++ libxml2-dev git zip \
+    && apt-get install -my wget zlib1g-dev libicu-dev g++ libxml2-dev libpng-dev git zip \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
     && docker-php-ext-configure intl \
@@ -15,6 +15,7 @@ RUN set -e \
         soap \
         mysqli \
         bcmath \
+        gd \
     && pecl install xdebug-2.5.0 timezonedb \
     && docker-php-ext-enable xdebug timezonedb
 
