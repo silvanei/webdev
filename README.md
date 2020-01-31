@@ -23,7 +23,7 @@ SEU_IP          portainer.docker.local
 Criar seus hosts virtuais dentro do diretorio /var/www/webdev/nginx/conf.d. Pois o mesmo já está mapeada no container em sua respectiva pasta.
 
 ### Configurar as variáveis de ambiente
-Copie o arquivo de exemplo e preencha as variáveis com seus valores.
+Copie o arquivo de exemplo ([.env.example](.env.example)) e preencha as variáveis com seus valores.
 Utilizamos o blackfire para gerar profile. crie uma conta aqui https://blackfire.io/signup
 ```
 cp .env.example .env
