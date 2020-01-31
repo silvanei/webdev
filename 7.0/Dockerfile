@@ -16,7 +16,7 @@ RUN set -e \
     && apk add --no-cache make \
     && apk add --no-cache autoconf \
     && docker-php-ext-install mysqli pdo_mysql opcache intl zip bcmath \
-    && pecl install xdebug \
+    && pecl install xdebug-2.6.0 \
     && docker-php-ext-enable xdebug \
     && php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
     && php composer-setup.php \

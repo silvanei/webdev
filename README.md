@@ -24,7 +24,7 @@ Criar seus hosts virtuais dentro do diretorio /var/www/webdev/nginx/conf.d. Pois
 
 ### Configurar as variáveis de ambiente
 Copie o arquivo de exemplo ([.env.example](.env.example)) e preencha as variáveis com seus valores.
-Utilizamos o blackfire para gerar profile. crie uma conta aqui <a href="https://blackfire.io/signup" target="_blank">https://blackfire.io/signup</a>
+Utilizamos o Blackfire para gerar profile. crie uma conta aqui <a href="https://blackfire.io/signup" target="_blank">https://blackfire.io/signup</a>
 ```
 cp .env.example .env
 ```
