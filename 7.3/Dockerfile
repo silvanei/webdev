@@ -12,12 +12,9 @@ RUN set -e \
     && apk add --no-cache libzip-dev \
     && apk add --no-cache g++ \
     && apk add --no-cache make \
-    && apk add --no-cache autoconf \
-#    Dependencias webgrind
-    && apk add --no-cache python3 \
-    && apk add --no-cache graphviz \
-    && if [ ! -e /usr/bin/python ]; then ln -sf python3 /usr/bin/python ; fi \
-    && docker-php-ext-install \
+    && apk add --no-cache autoconf
+
+RUN docker-php-ext-install \
         mysqli \
         pdo_mysql \
         opcache \
@@ -27,9 +24,20 @@ RUN set -e \
     && pecl install \
         xdebug \
         redis \
+        ds \
     && docker-php-ext-enable \
         xdebug \
         redis \
+        ds \
+    # blackfire
+    && version=$(php -r "echo PHP_MAJOR_VERSION.PHP_MINOR_VERSION;") \
+    && curl -A "Docker" -o /tmp/blackfire-probe.tar.gz -D - -L -s https://blackfire.io/api/v1/releases/probe/php/alpine/amd64/$version \
+    && mkdir -p /tmp/blackfire \
+    && tar zxpf /tmp/blackfire-probe.tar.gz -C /tmp/blackfire \
+    && mv /tmp/blackfire/blackfire-*.so $(php -r "echo ini_get ('extension_dir');")/blackfire.so \
+    && printf "extension=blackfire.so\nblackfire.agent_socket=tcp://blackfire:8707\n" > $PHP_INI_DIR/conf.d/blackfire.ini \
+    && rm -rf /tmp/blackfire /tmp/blackfire-probe.tar.gz \
+    # composer
     && php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
     && php composer-setup.php \
     && php -r "unlink('composer-setup.php');" \
@@ -41,7 +49,5 @@ RUN set -e \
     && docker-php-source delete \
     && rm -rf /var/cache/* \
     && rm -Rf /tmp/*
-
-RUN sed -e 's/;pm.status_path = \/status/pm.status_path = \/status/' -i /usr/local/etc/php-fpm.d/www.conf
 
 WORKDIR /var/www

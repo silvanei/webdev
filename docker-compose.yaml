@@ -1,4 +1,4 @@
-version: '3'
+version: '3.3'
 services:
   nginx:
     image: nginx:latest
@@ -26,6 +26,7 @@ services:
       - fpm-74
     networks:
       default:
+
   fpm-56:
     image: webdev:5.6-fpm
     build: 5.6/
@@ -40,6 +41,7 @@ services:
       - /etc/hosts:/etc/hosts:ro
     networks:
       default:
+
   fpm-70:
     image: webdev:7.0-fpm
     build: 7.0/
@@ -54,6 +56,7 @@ services:
       - /etc/hosts:/etc/hosts:ro
     networks:
       default:
+
   fpm-71:
     image: webdev:7.1-fpm
     build: 7.1/
@@ -68,6 +71,7 @@ services:
       - /etc/hosts:/etc/hosts:ro
     networks:
       default:
+
   fpm-72:
     image: webdev:7.2-fpm
     build: 7.2/
@@ -82,6 +86,7 @@ services:
       - /etc/hosts:/etc/hosts:ro
     networks:
       default:
+
   fpm-73:
     image: webdev:7.3-fpm
     build: 7.3/
@@ -96,6 +101,7 @@ services:
       - /etc/hosts:/etc/hosts:ro
     networks:
       default:
+
   fpm-74:
     image: webdev:7.4-fpm
     build: 7.4/
@@ -110,15 +116,19 @@ services:
       - /etc/hosts:/etc/hosts:ro
     networks:
       default:
+
+  blackfire:
+    image: blackfire/blackfire
+    restart: always
+    container_name: blackfire
+    env_file:
+      - .env
   mysql.docker.local:
     image: mysql:5.6.34
     restart: always
     container_name: mysql.docker.local
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: dev
-      MYSQL_USER: root
-      MYSQL_PASSWORD: root
+    env_file:
+      - .env
     ports:
       - "3306:3306"
     volumes:
