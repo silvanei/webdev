@@ -2,11 +2,6 @@
 
 Clone este projeto dentro de /var/www
 
-### Criar as Imagens
-```sh
-docker-compose build
-```
-
 ### Alias para executar o PHP cli
 Adicione, ao seu arquivo ~/.bashrc esta linha.
 ```sh

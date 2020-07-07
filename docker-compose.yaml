@@ -28,11 +28,10 @@ services:
       default:
 
   fpm-56:
-    image: webdev:5.6-fpm
-    build: 5.6/
+    image: silvanei/php:5.6-fpm
     container_name: "5.6-fpm"
-    environment:
-      - TZ=America/Sao_Paulo
+    env_file:
+      - .env
     restart: always
     working_dir: /var/www
     volumes:
@@ -43,11 +42,10 @@ services:
       default:
 
   fpm-70:
-    image: webdev:7.0-fpm
-    build: 7.0/
+    image: silvanei/php:7.0-fpm
     container_name: "7.0-fpm"
-    environment:
-      - TZ=America/Sao_Paulo
+    env_file:
+      - .env
     restart: always
     working_dir: /var/www
     volumes:
@@ -58,11 +56,10 @@ services:
       default:
 
   fpm-71:
-    image: webdev:7.1-fpm
-    build: 7.1/
+    image: silvanei/php:7.1-fpm
     container_name: "7.1-fpm"
-    environment:
-      - TZ=America/Sao_Paulo
+    env_file:
+      - .env
     restart: always
     working_dir: /var/www
     volumes:
@@ -73,11 +70,10 @@ services:
       default:
 
   fpm-72:
-    image: webdev:7.2-fpm
-    build: 7.2/
+    image: silvanei/php:7.2-fpm
     container_name: "7.2-fpm"
-    environment:
-      - TZ=America/Sao_Paulo
+    env_file:
+      - .env
     restart: always
     working_dir: /var/www
     volumes:
@@ -88,11 +84,10 @@ services:
       default:
 
   fpm-73:
-    image: webdev:7.3-fpm
-    build: 7.3/
+    image: silvanei/php:7.3-fpm
     container_name: "7.3-fpm"
-    environment:
-      - TZ=America/Sao_Paulo
+    env_file:
+      - .env
     restart: always
     working_dir: /var/www
     volumes:
@@ -103,11 +98,10 @@ services:
       default:
 
   fpm-74:
-    image: webdev:7.4-fpm
-    build: 7.4/
+    image: silvanei/php:7.4-fpm
     container_name: "7.4-fpm"
-    environment:
-      - TZ=America/Sao_Paulo
+    env_file:
+      - .env
     restart: always
     working_dir: /var/www
     volumes:
