@@ -1,26 +1,24 @@
-FROM php:5.6-fpm-alpine
+FROM php:5.6-fpm-alpine3.8
 
-ENV COMPOSER_ALLOW_SUPERUSER=1
+ENV COMPOSER_ALLOW_SUPERUSER=1 \
+    TZ="America/Sao_Paulo"
 
 COPY conf/40-custom.ini /usr/local/etc/php/conf.d/40-custom.ini
 
 RUN set -e \
     && apk update --no-cache \
+    && apk add --no-cache --virtual .phpize-deps \
+        $PHPIZE_DEPS \
+        libpng-dev \
+        icu-dev \
+        libzip-dev \
+        libxml2-dev \
     && apk add --no-cache wget \
-    && apk add --no-cache zlib-dev \
-    && apk add --no-cache icu-dev \
-    && apk add --no-cache g++ \
-    && apk add --no-cache make \
-    && apk add --no-cache autoconf \
-    && apk add --no-cache libxml2-dev \
-    && apk add --no-cache libpng-dev \
+    && apk add --no-cache icu \
+    && apk add --no-cache libpng \
     && apk add --no-cache git \
     && apk add --no-cache zip \
     && apk add --no-cache musl-dev \
-    && rm -rf /var/cache/* \
-    && rm -Rf /tmp/*
-
-RUN docker-php-ext-configure intl \
     && docker-php-ext-install \
         mysql \
         pdo_mysql \
@@ -35,6 +33,14 @@ RUN docker-php-ext-configure intl \
     && docker-php-ext-enable \
         xdebug \
         timezonedb \
+    # blackfire
+    && version=$(php -r "echo PHP_MAJOR_VERSION.PHP_MINOR_VERSION;") \
+    && curl -A "Docker" -o /tmp/blackfire-probe.tar.gz -D - -L -s https://blackfire.io/api/v1/releases/probe/php/alpine/amd64/$version \
+    && mkdir -p /tmp/blackfire \
+    && tar zxpf /tmp/blackfire-probe.tar.gz -C /tmp/blackfire \
+    && mv /tmp/blackfire/blackfire-*.so $(php -r "echo ini_get ('extension_dir');")/blackfire.so \
+    && printf "extension=blackfire.so\nblackfire.agent_socket=${BLACKFIRE_AGENT_SOCKET}\n" > $PHP_INI_DIR/conf.d/blackfire.ini \
+    && rm -rf /tmp/blackfire /tmp/blackfire-probe.tar.gz \
     && php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
     && php composer-setup.php \
     && php -r "unlink('composer-setup.php');" \
@@ -42,6 +48,7 @@ RUN docker-php-ext-configure intl \
     #   Clear install
     && pecl clear-cache \
     && composer clear-cache \
+    && apk del --no-network .phpize-deps \
     && docker-php-source delete \
     && rm -rf /var/cache/* \
     && rm -Rf /tmp/*

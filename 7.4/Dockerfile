@@ -1,9 +1,11 @@
-FROM php:7.4.7-fpm-alpine3.12
+FROM php:7.4.11-fpm-alpine3.12
 
 # https://snyk.io/blog/10-docker-image-security-best-practices/
 # Teste da imagem https://medium.com/@aelsabbahy/tutorial-how-to-test-your-docker-image-in-half-a-second-bbd13e06a4a9
-LABEL maintanier="ads.silvanei@gmail.com"
-LABEL alpine-package-version="https://pkgs.alpinelinux.org/packages?name=nginx&branch=v3.12&repo=main&arch=x86"
+LABEL name="PHP" \
+      Version="7.4" \
+      maintanier="ads.silvanei@gmail.com" \
+      alpine-package-version="https://pkgs.alpinelinux.org/packages?name=nginx&branch=v3.12&repo=main&arch=x86"
 
 ENV COMPOSER_ALLOW_SUPERUSER=1 \
     TZ="America/Sao_Paulo"
@@ -12,31 +14,35 @@ COPY conf/40-custom.ini /usr/local/etc/php/conf.d/40-custom.ini
 
 RUN set -e \
     && apk update --no-cache \
+    && apk add --no-cache --virtual .phpize-deps \
+        $PHPIZE_DEPS \
+        libpng-dev=1.6.37-r1 \
+        icu-dev=67.1-r0 \
+        libzip-dev=1.6.1-r1 \
+        libxml2-dev=2.9.10-r5 \
     && apk add --no-cache tzdata=2020a-r0 \
-    && apk add --no-cache icu-dev=67.1-r0 \
-    && apk add --no-cache libzip-dev=1.6.1-r1 \
-    && apk add --no-cache g++=9.3.0-r2 \
-    && apk add --no-cache make=4.3-r0 \
-    && apk add --no-cache autoconf=2.69-r2 \
-    && rm -rf /var/cache/* \
-    && rm -Rf /tmp/*
-
-    # Dependencias php
-RUN docker-php-ext-install \
+    && apk add --no-cache icu=67.1-r0 \
+    && apk add --no-cache libpng=1.6.37-r1 \
+    && apk add --no-cache libzip=1.6.1-r1 \
+    && docker-php-ext-install \
         mysqli \
         pdo_mysql \
         opcache \
         intl \
         zip \
         bcmath \
+        soap \
+        gd \
     && pecl install \
         xdebug \
         redis \
         ds \
+        timecop-beta \
     && docker-php-ext-enable \
         xdebug \
         redis \
         ds \
+        timecop \
     # blackfire
     && version=$(php -r "echo PHP_MAJOR_VERSION.PHP_MINOR_VERSION;") \
     && curl -A "Docker" -o /tmp/blackfire-probe.tar.gz -D - -L -s https://blackfire.io/api/v1/releases/probe/php/alpine/amd64/$version \
@@ -55,6 +61,9 @@ RUN docker-php-ext-install \
     #   Clear install
     && pecl clear-cache \
     && composer clear-cache \
-    && docker-php-source delete
+    && apk del --no-network .phpize-deps \
+    && docker-php-source delete \
+    && rm -rf /var/cache/* \
+    && rm -Rf /tmp/*
 
 WORKDIR /var/www
