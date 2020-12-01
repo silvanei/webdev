@@ -24,6 +24,7 @@ services:
       - fpm-72
       - fpm-73
       - fpm-74
+      - fpm-80
     networks:
       default:
 
@@ -35,6 +36,7 @@ services:
     restart: always
     working_dir: /var/www
     volumes:
+      - ./5.6/40-custom.ini:/usr/local/etc/php/conf.d/9999-custom.ini
       - ./../:/var/www
       - /tmp:/tmp
       - /etc/hosts:/etc/hosts:ro
@@ -49,6 +51,7 @@ services:
     restart: always
     working_dir: /var/www
     volumes:
+      - ./7.0/40-custom.ini:/usr/local/etc/php/conf.d/9999-custom.ini
       - ./../:/var/www
       - /tmp:/tmp
       - /etc/hosts:/etc/hosts:ro
@@ -63,6 +66,7 @@ services:
     restart: always
     working_dir: /var/www
     volumes:
+      - ./7.1/40-custom.ini:/usr/local/etc/php/conf.d/9999-custom.ini
       - ./../:/var/www
       - /tmp:/tmp
       - /etc/hosts:/etc/hosts:ro
@@ -77,6 +81,7 @@ services:
     restart: always
     working_dir: /var/www
     volumes:
+      - ./7.2/40-custom.ini:/usr/local/etc/php/conf.d/9999-custom.ini
       - ./../:/var/www
       - /tmp:/tmp
       - /etc/hosts:/etc/hosts:ro
@@ -91,6 +96,7 @@ services:
     restart: always
     working_dir: /var/www
     volumes:
+      - ./7.3/40-custom.ini:/usr/local/etc/php/conf.d/9999-custom.ini
       - ./../:/var/www
       - /tmp:/tmp
       - /etc/hosts:/etc/hosts:ro
@@ -105,6 +111,22 @@ services:
     restart: always
     working_dir: /var/www
     volumes:
+      - ./7.4/40-custom.ini:/usr/local/etc/php/conf.d/9999-custom.ini
+      - ./../:/var/www
+      - /tmp:/tmp
+      - /etc/hosts:/etc/hosts:ro
+    networks:
+      default:
+
+  fpm-80:
+    image: silvanei/php:8.0-fpm
+    container_name: "8.0-fpm"
+    env_file:
+      - .env
+    restart: always
+    working_dir: /var/www
+    volumes:
+      - ./8.0/40-custom.ini:/usr/local/etc/php/conf.d/9999-custom.ini
       - ./../:/var/www
       - /tmp:/tmp
       - /etc/hosts:/etc/hosts:ro
@@ -132,6 +154,7 @@ services:
   redis.docker.local:
     container_name: redis.docker.local
     image: redis:3.2.10-alpine
+    restart: always
     ports:
       - "6379:6379"
     volumes:
@@ -142,7 +165,7 @@ services:
   # docker volume create portainer_data
   # docker run -d -p 81:9000 --name portainer --restart always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer
   portainer:
-    image: portainer/portainer:latest
+    image: portainer/portainer:alpine
     container_name: "portainer"
     restart: always
     ports:

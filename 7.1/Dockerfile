@@ -3,8 +3,6 @@ FROM php:7.1-fpm-alpine3.10
 ENV COMPOSER_ALLOW_SUPERUSER=1 \
     TZ="America/Sao_Paulo"
 
-COPY conf/40-custom.ini /usr/local/etc/php/conf.d/40-custom.ini
-
 RUN set -e \
     && apk update \
     && apk add --no-cache --virtual .phpize-deps \
@@ -13,7 +11,7 @@ RUN set -e \
         icu-dev=64.2-r1 \
         libzip-dev=1.5.2-r0 \
         libxml2-dev=2.9.9-r4 \
-    && apk add --no-cache tzdata=2020a-r0 \
+    && apk add --no-cache tzdata=2020c-r1 \
     && apk add --no-cache icu=64.2-r1 \
     && apk add --no-cache libpng=1.6.37-r1 \
     && docker-php-ext-install \
@@ -26,7 +24,7 @@ RUN set -e \
         soap \
         gd \
     && pecl install \
-        xdebug \
+        xdebug-2.9.8 \
         redis \
         ds \
         timecop-beta \

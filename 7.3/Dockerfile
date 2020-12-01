@@ -3,8 +3,6 @@ FROM php:7.3-fpm-alpine3.12
 ENV COMPOSER_ALLOW_SUPERUSER=1 \
     TZ="America/Sao_Paulo"
 
-COPY conf/40-custom.ini /usr/local/etc/php/conf.d/40-custom.ini
-
 RUN set -e \
     && apk update \
     && apk add --no-cache --virtual .phpize-deps \
@@ -13,7 +11,7 @@ RUN set -e \
         icu-dev=67.1-r0 \
         libzip-dev=1.6.1-r1 \
         libxml2-dev=2.9.10-r5 \
-    && apk add --no-cache tzdata=2020a-r0 \
+    && apk add --no-cache tzdata=2020c-r1 \
     && apk add --no-cache icu=67.1-r0 \
     && apk add --no-cache libpng=1.6.37-r1 \
     && apk add --no-cache libzip=1.6.1-r1 \
@@ -27,7 +25,7 @@ RUN set -e \
         soap \
         gd \
     && pecl install \
-        xdebug \
+        xdebug-2.9.8 \
         redis \
         ds \
         timecop-beta \
@@ -49,7 +47,6 @@ RUN set -e \
     && php composer-setup.php \
     && php -r "unlink('composer-setup.php');" \
     && mv composer.phar /usr/local/bin/composer \
-    && composer global require hirak/prestissimo --no-plugins --no-scripts \
 #   Clear install
     && pecl clear-cache \
     && composer clear-cache \

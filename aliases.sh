@@ -22,5 +22,8 @@ alias composer-7.3='docker_alias silvanei/php:7.3-fpm composer'
 alias php-7.4='docker_alias silvanei/php:7.4-fpm php'
 alias composer-7.4='docker_alias silvanei/php:7.4-fpm composer'
 
+alias php-8.0='docker_alias silvanei/php:8.0-fpm php'
+alias composer-8.0='docker_alias silvanei/php:8.0-fpm composer'
+
 # Add, in your ~/.bash_profile file this line, replacing ~/PATH_OF_REPOSITORY with the PATH/directory of this repository.
 # source ~/PATH_OF_REPOSITORY/aliases.sh

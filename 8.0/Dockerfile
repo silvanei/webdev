@@ -1,9 +1,9 @@
-FROM php:7.4.11-fpm-alpine3.12
+FROM php:8.0.0-fpm-alpine3.12
 
 # https://snyk.io/blog/10-docker-image-security-best-practices/
 # Teste da imagem https://medium.com/@aelsabbahy/tutorial-how-to-test-your-docker-image-in-half-a-second-bbd13e06a4a9
 LABEL name="PHP" \
-      Version="7.4" \
+      Version="8.0.0" \
       maintanier="ads.silvanei@gmail.com" \
       alpine-package-version="https://pkgs.alpinelinux.org/packages?name=nginx&branch=v3.12&repo=main&arch=x86"
 
@@ -32,15 +32,13 @@ RUN set -e \
         soap \
         gd \
     && pecl install \
-        xdebug \
-        redis \
         ds \
-        timecop-beta \
+        redis \
+        xdebug \
     && docker-php-ext-enable \
-        xdebug \
-        redis \
         ds \
-        timecop \
+        redis \
+        xdebug \
     # blackfire
     && version=$(php -r "echo PHP_MAJOR_VERSION.PHP_MINOR_VERSION;") \
     && curl -A "Docker" -o /tmp/blackfire-probe.tar.gz -D - -L -s https://blackfire.io/api/v1/releases/probe/php/alpine/amd64/$version \
@@ -55,7 +53,6 @@ RUN set -e \
     && php -r "unlink('composer-setup.php');" \
     && mv composer.phar /usr/local/bin/composer \
     #   Clear install
-    && pecl clear-cache \
     && composer clear-cache \
     && apk del --no-network .phpize-deps \
     && docker-php-source delete \

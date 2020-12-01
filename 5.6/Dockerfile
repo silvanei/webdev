@@ -3,8 +3,6 @@ FROM php:5.6-fpm-alpine3.8
 ENV COMPOSER_ALLOW_SUPERUSER=1 \
     TZ="America/Sao_Paulo"
 
-COPY conf/40-custom.ini /usr/local/etc/php/conf.d/40-custom.ini
-
 RUN set -e \
     && apk update --no-cache \
     && apk add --no-cache --virtual .phpize-deps \
