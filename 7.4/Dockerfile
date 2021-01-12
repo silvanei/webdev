@@ -1,4 +1,4 @@
-FROM php:7.4.13-fpm-alpine3.12
+FROM php:7.4.14-fpm-alpine3.12
 
 # https://snyk.io/blog/10-docker-image-security-best-practices/
 # Teste da imagem https://medium.com/@aelsabbahy/tutorial-how-to-test-your-docker-image-in-half-a-second-bbd13e06a4a9
@@ -18,7 +18,7 @@ RUN set -e \
         icu-dev=67.1-r0 \
         libzip-dev=1.6.1-r1 \
         libxml2-dev=2.9.10-r5 \
-    && apk add --no-cache tzdata=2020c-r1 \
+    && apk add --no-cache tzdata=2020f-r0 \
     && apk add --no-cache icu=67.1-r0 \
     && apk add --no-cache libpng=1.6.37-r1 \
     && apk add --no-cache libzip=1.6.1-r1 \
