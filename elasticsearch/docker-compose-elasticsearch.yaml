@@ -1,0 +1,16 @@
+version: '3.3'
+services:
+  elasticsearch.docker.local:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.2.4
+    container_name: elasticsearch
+    ports:
+      - "9200:9200"
+    environment:
+      - discovery.type=single-node
+
+    networks:
+      global-default:
+
+networks:
+  global-default:
+    external: true

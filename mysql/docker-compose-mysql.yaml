@@ -1,0 +1,21 @@
+version: '3.3'
+services:
+  mysql.docker.local:
+    image: mysql:5.6.34
+#    restart: always
+    container_name: mysql
+    env_file:
+      - ./../.env
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      global-default:
+
+volumes:
+  mysql_data:
+
+networks:
+  global-default:
+    external: true

@@ -1,11 +1,10 @@
-# Ambiente de desenvolvimento PHP
+## Ambiente de desenvolvimento com PHP
 
 Clone este projeto dentro de /var/www
 
-### Alias para executar o PHP cli
-Adicione, ao seu arquivo ~/.bashrc esta linha.
-```sh
-source /var/www/webdev/aliases.sh
+### Criar uma rede para os conatiners
+```
+docker network create global-default
 ```
 
 ### Adiconar portainer ao arquivo hosts
@@ -24,14 +23,36 @@ Utilizamos o Blackfire para gerar profile. crie uma conta aqui <a href="https://
 cp .env.example .env
 ```
 
-### Subir o ambiente
+### Subir o ambiente default
+Por padrão é iniciado o Portainer, Nginx e o PHP
 ```sh
 docker-compose up -d
 ```
 
 Acesse seu navegador e digite https://portainer.docker.local
 
-### Baixar o ambiente
+### Subir as demais feramentas
 ```sh
-docker-compose down
+docker-compose -f blackfire/docker-compose-blackfire.yaml up -d
+docker-compose -f elasticsearch/docker-compose-elasticsearch.yaml up -d
+docker-compose -f freeswitch/docker-compose-elasticsearch.yaml up -d
+docker-compose -f rabbitmq/docker-compose-elasticsearch.yaml up -d
+docker-compose -f redis/docker-compose-redis.yaml up -d
+docker-compose -f redis/docker-compose-redisinsight.yaml up -d
+```
+
+### Alias para executar o PHP cli
+Adicione, ao seu arquivo ~/.bashrc esta linha.
+```sh
+source /var/www/webdev/aliases.sh
+```
+
+PHP cli com xdebug3
+```
+php-8.0 -dxdebug.mode=debug index.php
+```
+
+Swoole com yasd
+```
+swoole-4.7 -e index.php
 ```

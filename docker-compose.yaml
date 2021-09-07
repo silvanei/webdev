@@ -26,7 +26,7 @@ services:
       - fpm-74
       - fpm-80
     networks:
-      default:
+      global-default:
 
   fpm-56:
     image: silvanei/php:5.6-fpm
@@ -36,12 +36,12 @@ services:
     restart: always
     working_dir: /var/www
     volumes:
-      - ./5.6/40-custom.ini:/usr/local/etc/php/conf.d/9999-custom.ini
+      - ./php/40-custom.ini:/usr/local/etc/php/conf.d/9999-custom.ini
+      - ./php/40-xdebug2.ini:/usr/local/etc/php/conf.d/9999-xdebug2.ini
       - ./../:/var/www
-      - /tmp:/tmp
       - /etc/hosts:/etc/hosts:ro
     networks:
-      default:
+      global-default:
 
   fpm-70:
     image: silvanei/php:7.0-fpm
@@ -51,12 +51,12 @@ services:
     restart: always
     working_dir: /var/www
     volumes:
-      - ./7.0/40-custom.ini:/usr/local/etc/php/conf.d/9999-custom.ini
-      - ./../:/var/www
+      - ./php/40-custom.ini:/usr/local/etc/php/conf.d/9999-custom.ini
+      - ./php/40-xdebug2.ini:/usr/local/etc/php/conf.d/9999-xdebug2.ini
       - /tmp:/tmp
       - /etc/hosts:/etc/hosts:ro
     networks:
-      default:
+      global-default:
 
   fpm-71:
     image: silvanei/php:7.1-fpm
@@ -66,12 +66,12 @@ services:
     restart: always
     working_dir: /var/www
     volumes:
-      - ./7.1/40-custom.ini:/usr/local/etc/php/conf.d/9999-custom.ini
+      - ./php/40-custom.ini:/usr/local/etc/php/conf.d/9999-custom.ini
+      - ./php/40-xdebug2.ini:/usr/local/etc/php/conf.d/9999-xdebug2.ini
       - ./../:/var/www
-      - /tmp:/tmp
       - /etc/hosts:/etc/hosts:ro
     networks:
-      default:
+      global-default:
 
   fpm-72:
     image: silvanei/php:7.2-fpm
@@ -81,12 +81,12 @@ services:
     restart: always
     working_dir: /var/www
     volumes:
-      - ./7.2/40-custom.ini:/usr/local/etc/php/conf.d/9999-custom.ini
+      - ./php/40-custom.ini:/usr/local/etc/php/conf.d/9999-custom.ini
+      - ./php/40-xdebug3.ini:/usr/local/etc/php/conf.d/9999-xdebug3.ini
       - ./../:/var/www
-      - /tmp:/tmp
       - /etc/hosts:/etc/hosts:ro
     networks:
-      default:
+      global-default:
 
   fpm-73:
     image: silvanei/php:7.3-fpm
@@ -96,12 +96,12 @@ services:
     restart: always
     working_dir: /var/www
     volumes:
-      - ./7.3/40-custom.ini:/usr/local/etc/php/conf.d/9999-custom.ini
+      - ./php/40-custom.ini:/usr/local/etc/php/conf.d/9999-custom.ini
+      - ./php/40-xdebug3.ini:/usr/local/etc/php/conf.d/9999-xdebug3.ini
       - ./../:/var/www
-      - /tmp:/tmp
       - /etc/hosts:/etc/hosts:ro
     networks:
-      default:
+      global-default:
 
   fpm-74:
     image: silvanei/php:7.4-fpm
@@ -111,12 +111,12 @@ services:
     restart: always
     working_dir: /var/www
     volumes:
-      - ./7.4/40-custom.ini:/usr/local/etc/php/conf.d/9999-custom.ini
+      - ./php/40-custom.ini:/usr/local/etc/php/conf.d/9999-custom.ini
+      - ./php/40-xdebug3.ini:/usr/local/etc/php/conf.d/9999-xdebug3.ini
       - ./../:/var/www
-      - /tmp:/tmp
       - /etc/hosts:/etc/hosts:ro
     networks:
-      default:
+      global-default:
 
   fpm-80:
     image: silvanei/php:8.0-fpm
@@ -126,46 +126,15 @@ services:
     restart: always
     working_dir: /var/www
     volumes:
-      - ./8.0/40-custom.ini:/usr/local/etc/php/conf.d/9999-custom.ini
+      - ./php/40-custom.ini:/usr/local/etc/php/conf.d/9999-custom.ini
+      - ./php/40-xdebug3.ini:/usr/local/etc/php/conf.d/9999-xdebug3.ini
       - ./../:/var/www
-      - /tmp:/tmp
       - /etc/hosts:/etc/hosts:ro
     networks:
-      default:
+      global-default:
 
-  blackfire:
-    image: blackfire/blackfire
-    restart: always
-    container_name: blackfire
-    env_file:
-      - .env
-  mysql.docker.local:
-    image: mysql:5.6.34
-    restart: always
-    container_name: mysql.docker.local
-    env_file:
-      - .env
-    ports:
-      - "3306:3306"
-    volumes:
-      - mysql_data:/var/lib/mysql
-    networks:
-      default:
-  redis.docker.local:
-    container_name: redis.docker.local
-    image: redis:3.2.10-alpine
-    restart: always
-    ports:
-      - "6379:6379"
-    volumes:
-      - redis_data:/data
-    networks:
-      default:
-
-  # docker volume create portainer_data
-  # docker run -d -p 81:9000 --name portainer --restart always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer
   portainer:
-    image: portainer/portainer:alpine
+    image: portainer/portainer-ce:alpine
     container_name: "portainer"
     restart: always
     ports:
@@ -175,12 +144,11 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data
     networks:
-      default:
+      global-default:
 
 volumes:
   portainer_data:
-  mysql_data:
-  redis_data:
 
 networks:
-  default:
+  global-default:
+    external: true

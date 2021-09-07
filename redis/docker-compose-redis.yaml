@@ -1,0 +1,17 @@
+version: '3.3'
+services:
+  redis.docker.local:
+    container_name: redis
+    image: redis:3.2.10-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      global-default:
+volumes:
+  redis_data:
+
+networks:
+  global-default:
+    external: true

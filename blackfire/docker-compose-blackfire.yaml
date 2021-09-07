@@ -1,0 +1,13 @@
+version: '3.3'
+services:
+  blackfire:
+    image: blackfire/blackfire
+    container_name: blackfire
+    env_file:
+      - ./../.env
+    networks:
+      global-default:
+
+networks:
+  global-default:
+    external: true

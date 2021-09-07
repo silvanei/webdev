@@ -1,0 +1,17 @@
+version: '3.3'
+services:
+  redisinsight.docker.local:
+    container_name: redis-insight
+    image: redislabs/redisinsight:latest
+    ports:
+      - "8001:8001"
+    volumes:
+      - redisinsight:/db
+    networks:
+      global-default:
+volumes:
+  redisinsight:
+
+networks:
+  global-default:
+    external: true

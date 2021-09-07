@@ -1,0 +1,15 @@
+version: '3.3'
+services:
+  freeswitch:
+    image: safarov/freeswitch:latest
+    container_name: "freeswitch"
+    environment:
+      -  "SOUND_RATES=8000:16000"
+      -  "SOUND_TYPES=music:en-us-callie"
+    volumes:
+      - /etc/freeswitch/:/etc/freeswitch
+      - freeswitch-sounds:/usr/share/freeswitch/sounds
+    network_mode: host
+
+volumes:
+  freeswitch-sounds:
