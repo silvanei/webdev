@@ -35,8 +35,9 @@ Acesse seu navegador e digite https://portainer.docker.local
 ```sh
 docker-compose -f blackfire/docker-compose-blackfire.yaml up -d
 docker-compose -f elasticsearch/docker-compose-elasticsearch.yaml up -d
-docker-compose -f freeswitch/docker-compose-elasticsearch.yaml up -d
-docker-compose -f rabbitmq/docker-compose-elasticsearch.yaml up -d
+docker-compose -f freeswitch/docker-compose-freeswitch.yaml up -d
+docker-compose -f postgres/docker-compose-postgres.yaml up -d
+docker-compose -f rabbitmq/docker-compose-rabbitmq.yaml up -d
 docker-compose -f redis/docker-compose-redis.yaml up -d
 docker-compose -f redis/docker-compose-redisinsight.yaml up -d
 ```

@@ -1,14 +1,11 @@
 version: '3.3'
 services:
-##  docker run -d --hostname my-rabbit --name some-rabbit -p 8080:15672 -e RABBITMQ_DEFAULT_USER=user -e RABBITMQ_DEFAULT_PASS=password rabbitmq:3-management
   rabbitmq.docker.local:
-    image: rabbitmq:3.8-management
+    image: rabbitmq:3.8-management-alpine
     container_name: rabbitmq
-#    hostname: 192.168.100.4
     hostname: rabbitmq:5672
-    environment:
-      - "RABBITMQ_DEFAULT_USER=silvanei"
-      - "RABBITMQ_DEFAULT_PASS=silvanei"
+    env_file:
+      - ./../.env
     ports:
       - "15672:15672"
       - "5672:5672"
