@@ -31,6 +31,9 @@ alias composer-8.0='docker_alias silvanei/php:8.0-fpm composer'
 
 alias php-8.0-swoole4.7='docker_swoole_alias silvanei/php:8.0-swoole4.7 php -dyasd.debug_mode=remote -dyasd.remote_host=host.docker.internal -dyasd.remote_port=9003'
 
+alias php-8.1='docker_alias silvanei/php:8.1-fpm php -dxdebug.client_host=host.docker.internal -dxdebug.start_with_request=yes'
+alias composer-8.1='docker_alias silvanei/php:8.1-fpm composer'
+
 # Add, in your ~/.bash_profile file this line, replacing ~/PATH_OF_REPOSITORY with the PATH/directory of this repository.
 # source ~/PATH_OF_REPOSITORY/aliases.sh
 
